@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1 class="text-4xl font-bold text-green-600 mb-4">{{ header }}</h1>
+<p class="text-lg">Welcome to the Local Library, powered by Django and Tailwind CSS!</p>
+<p class="mt-2 p-4 bg-blue-100 border border-blue-300 rounded-lg">This page is rendered by your Django view.</p>
+{% endblock %}
