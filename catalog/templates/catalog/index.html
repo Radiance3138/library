@@ -1,9 +1,31 @@
 {% extends "base.html" %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+    <title>Home Page</title> 
+{% endblock %}
 
 {% block content %}
-<h1 class="text-4xl font-bold text-green-600 mb-4">{{ header }}</h1>
-<p class="text-lg">Welcome to the Local Library, powered by Django and Tailwind CSS!</p>
-<p class="mt-2 p-4 bg-blue-100 border border-blue-300 rounded-lg">This page is rendered by your Django view.</p>
+    <div>
+        <h1 class="text-4xl font-bold text-green-600 mb-4">
+            Local Library Home
+        </h1>
+        <p class="text-lg">Welcome to the Local Library, powered by 
+            <em>Django and Tailwind CSS!</p>
+    </div>
+    <div class="mt-2 p-4 bg-yellow-100 border border-yellow-300 rounded-lg">
+        <h2>
+            Dynamic Content
+        </h2>
+        <p>
+            The library has the following record counts:
+        </p>
+        <ul>
+            <li><strong>Books:</strong> {{ num_books }}</li>
+            <li><strong>Copies:</strong> {{ num_instances }}</li>
+            <li><strong>Copies Available:</strong> {{ num_instances_available }}</li>
+            <li><strong>Authors:</strong> {{ num_authors }}</li>
+            <li><strong>Genres:</strong> {{ num_genres }}</li>
+            <li><strong>Books with 'The' in Title:</strong> {{ the_in_title_count }}</li>
+        </ul>
+    </div>
 {% endblock %}
