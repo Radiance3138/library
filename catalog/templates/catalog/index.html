@@ -25,7 +25,10 @@
             <li><strong>Copies Available:</strong> {{ num_instances_available }}</li>
             <li><strong>Authors:</strong> {{ num_authors }}</li>
             <li><strong>Genres:</strong> {{ num_genres }}</li>
-            <li><strong>Books with 'The' in Title:</strong> {{ the_in_title_count }}</li>
         </ul>
+        <p>
+            Yoy have visited this page {{ num_visits }} time{{num_visits|pluralize}}.
+        </p>
+            
     </div>
 {% endblock %}

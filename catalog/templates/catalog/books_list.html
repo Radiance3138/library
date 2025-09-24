@@ -3,6 +3,19 @@
 
 {% block content %}
     <h1>Books In The Library</h1>
-    {{ books }}
+    
+    {% if book_list %}
+        <ul>
+            {% for book in book_list %}
+                <li>
+                    <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>                    
+                    ({{ book.author }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books found.</p>
+    {% endif %}
+        
 {% endblock content %}
     

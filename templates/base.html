@@ -33,10 +33,10 @@
                         <a href="{% url 'index' %}" class="text-gray-600 hover: underline">Home</a>
                     </li>
                     <li>
-                        <a href="{% url 'books_list' %}" class="text-gray-600 hover: underline">All Books</a>
+                        <a href="{% url 'books' %}" class="text-gray-600 hover: underline">All Books</a>
                     </li>
                     <li>
-                        <a href="{% url 'authors_list' %}" class="text-gray-600 hover: underline">All Authors</a>
+                        <a href="{% url 'authors' %}" class="text-gray-600 hover: underline">All Authors</a>
                     </li>
                     <li>
                         <a href="{% url 'about' %}" class="text-gray-600 hover: underline">About</a>
@@ -48,6 +48,27 @@
                 {% block content %}
 
                 {% endblock %}
+
+                
+                {% block pagination %}
+                    
+                    {% if is_paginated %}
+                        <div>
+                            <span>
+                            {% if page_obj.has_previous %}
+                               <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+                            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                            {% if page_obj.has_next %}
+                                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                                {% endif %}
+                            </span>   
+                        </div>
+                        
+                    {% endif %}
+                        
+                {% endblock pagination %}
+                    
             </main>
         </div>
         <footer class="bg-lime-400 text-black mt-6 p-4 text-center">

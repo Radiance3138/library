@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.views import generic
+
+
 from .models import Book, BookInstance, Author, Genre
 
 def index(request):
@@ -15,6 +18,9 @@ def index(request):
 
     the_in_title_count = Book.objects.filter(title__icontains='The').count()
 
+    # Number of visits to this view, as counted in the session variable.
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
 
 
     context = {
@@ -23,20 +29,36 @@ def index(request):
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
         'num_genres': num_genres,
-        'the_in_title_count': the_in_title_count,
+        'num_visits': num_visits,
     }
     return render(
         request,
         'catalog/index.html', context=context
     )
 
-def books_list_view(request):
-    books = Book.objects.all()
-    return render(request, 'catalog/books_list.html', {'books': books})
+class BookListView(generic.ListView):
+    model = Book
+    paginate_by = 3 
+    context_object_name = 'book_list'
+    queryset = Book.objects.all()
+    template_name = 'catalog/books_list.html'
 
-def authors_list_view(request):
-    authors = Author.objects.all()
-    return render(request, 'catalog/authors_list.html', {'authors': authors})
+class BookDetailView(generic.DetailView):
+    model = Book
+    context_object_name = 'book'
+    template_name = 'catalog/book_detail.html'
+
+class AuthorListView(generic.ListView):
+    model = Author 
+    context_object_name = 'author_list'
+    queryset = Author.objects.all().order_by('last_name')
+    paginate_by = 3
+    template_name = 'catalog/authors_list.html'
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    context_object_name = 'author'
+    template_name = 'catalog/author_detail.html'
 
 def about(request):
     return render(request, 'catalog/about.html')
