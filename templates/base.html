@@ -2,22 +2,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% tailwind_css %}
+
     {% block title %}
         <title>
             Local Library
         </title>
     {% endblock %}
+
     <!-- <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}"> -->
+
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <!-- Header w logo and webapp name -->
+
+<body class="bg-gray-200 text-gray-800">
 
     <!-- Main content and sidebar -->
     <div class="min-h-screen flex flex-col">
-        <header class="bg-lime-400 text-black shadow-sm p-4">
+
+        <header class="bg-violet-300 text-black shadow-sm p-4">
             <div class="container mx-auto flex justify-between items-center">
                 <a href="#">Logo here</a>
                 <h1 class="text-2xl font-semibold">
@@ -25,10 +30,15 @@
                 </h1>
             </div>
         </header>
+
         <div class="flex flex-1">
-            <aside class="w-1/4 border-r mx-auto border-lime-300 bg-lime-100">
+
+            <aside class="w-1/4 border-r mx-auto border-violet-300 bg-violet-100">
+
                 {% block sidebar %}
-                <ul class="pl-8 pt-8">
+
+                <ul class="pl-4 pt-4">
+
                     <li>
                         <a href="{% url 'index' %}" class="text-gray-600 hover: underline">Home</a>
                     </li>
@@ -41,27 +51,87 @@
                     <li>
                         <a href="{% url 'about' %}" class="text-gray-600 hover: underline">About</a>
                     </li>
+
                 </ul>
+
+                <ul>
+                    <hr class="border-violet-300 p-1 mt-4"/>
+
+                    {% if user.is_staff %}
+                    <div class="pl-4 pr-4">
+
+                        <h1 class="font-semibold">Staff:</h1>
+
+                        {% if perms.catalog.can_mark_returned and perms.catalog.add_author and perms.catalog.add_book %}
+
+                            <li>
+                                <a href="{% url 'all-borrowed' %}">Borrowed Books</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'author-create' %}">Add an Author</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'book-create' %}">Add a Book</a>
+                            </li>
+
+                        {% endif %}
+                    </div>
+
+                    {% endif %}
+                    <hr class="border-violet-300 p-1 mt-1"/>
+
+                        {% if user.is_authenticated %}
+                        <div class="pl-4 pr-4">
+
+                            <h1 class="font-semibold">User: {{ user.get_username }}</h1>
+
+                            <li>
+                                <a href="{% url 'my-borrowed' %}">My Borrowed Books</a>
+                            </li>
+                            <li>
+                                <form id="logout-form" method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit">Logout</button>
+                                </form>
+                            </li>
+
+                        {% else %}
+
+                        <li>
+                            <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+                        </li>
+                    </div>
+
+                    {% endif %}
+
+                </ul>
+                <hr class="border-violet-300 p-1 mt-1"/>
+
                 {% endblock %}
             </aside>
+
             <main class="flex-auto p-6">
                 {% block content %}
 
                 {% endblock %}
-
                 
                 {% block pagination %}
                     
                     {% if is_paginated %}
                         <div>
+
                             <span>
                             {% if page_obj.has_previous %}
                                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+
                             {% endif %}
+
                             <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
                             {% if page_obj.has_next %}
                                 <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+
                                 {% endif %}
+
                             </span>   
                         </div>
                         
@@ -71,12 +141,15 @@
                     
             </main>
         </div>
-        <footer class="bg-lime-400 text-black mt-6 p-4 text-center">
+
+        <footer class="bg-violet-300 text-black p-4 text-center">
             <div class="container mx-auto text-center">
                 <p>&copy; 2025 Local Library. All rights reserved.</p>
                 <p>Contact: local-librarian@gmail.com</p>
             </div>
         </footer>
+
     </div>
+
 </body>
 </html>

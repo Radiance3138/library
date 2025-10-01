@@ -2,17 +2,48 @@
 
 
 {% block content %}
+
     <h1><strong>{{ author.last_name }}, {{ author.first_name }}</strong></h1>
     <p>{{ author.date_of_birth }} - {{ author.date_of_death }}</p>
     
     <p><strong>Books</strong></p>
+
     <ul>
+
         {% for book in author.book_set.all %}
             <li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></li>
             <li>{{ book.summary }}</li>
         {% endfor %}
+
     </ul>
     
 {% endblock content %}
-
+{% block sidebar %}
+    {{ block.super }}
     
+    {% if perms.catalog.change_author or perms.catalog.delete_author %}
+    <div class="pl-4 pr-4">
+
+        <h1 class="font-semibold">Actions:</h1>
+
+        <ul>
+            
+            {% if perms.catalog.change_author %}
+                <li>
+                    <a href="{% url 'author-update' author.id %}">Update author info</a>
+                </li>
+            {% endif %}
+            
+            {% if not author.book_set.all and perms.catalog.delete_author %}
+                <li>
+                    <a href="{% url 'author-delete' author.id %}">Delete author</a>
+                </li>
+            {% endif %}
+            
+        </ul>
+    
+    </div>
+
+    {% endif %}               
+
+{% endblock sidebar %}
