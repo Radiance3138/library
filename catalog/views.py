@@ -73,7 +73,7 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
 
 class BookListView(generic.ListView):
     model = Book
-    paginate_by = 3 
+    paginate_by = 10
     context_object_name = 'book_list'
     queryset = Book.objects.all()
     template_name = 'catalog/books_list.html'
@@ -115,7 +115,7 @@ class AuthorListView(generic.ListView):
     model = Author 
     context_object_name = 'author_list'
     queryset = Author.objects.all().order_by('last_name')
-    paginate_by = 3
+    paginate_by = 10
     template_name = 'catalog/authors_list.html'
 
 

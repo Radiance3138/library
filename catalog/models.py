@@ -14,7 +14,7 @@ class Genre(models.Model):
     name = models.CharField(
         max_length=50,
         unique=True,
-        help_text='Enter a book genre (e.g. Science Fiction)'
+        help_text='Enter a book genre (eg. Science Fiction)'
     )
 
     def __str__(self):
@@ -40,7 +40,7 @@ class Language(models.Model):
     """Model representing a Language (e.g. English, French, Japanese, etc.)."""
 
     name = models.CharField(max_length=50, unique=True,
-    help_text="Enter the book's natural language (e.g. English, French, Japanese etc.)")
+    help_text="Enter the book's natural language (eg. English, French, Japanese etc.)")
 
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
@@ -162,7 +162,7 @@ class Author(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
-    date_of_death = models.DateField('Died', null=True, blank=True)
+    date_of_death = models.DateField('died', null=True, blank=True)
 
     def __str__(self):
         """String for representing the Model object."""
